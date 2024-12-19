@@ -1,0 +1,19 @@
+- name: Deploy Nginx and Apache using Ansible
+  hosts: all
+  gather_facts: false
+  become: false
+
+  pre_tasks:
+    - name: Check if Python is installed
+      ansible.builtin.raw: |
+        python3 --version || apt-get update && apt-get install -y python3 || yum install -y python3
+      register: python_check
+      changed_when: python_check.rc == 2
+
+    - name: Gather facts manually after installing Python
+      ansible.builtin.setup:
+        gather_subset: all
+
+  roles:
+    - { role: nginx, when: "'nginx_servers' in group_names" }
+    - { role: apache, when: "'apache_servers' in group_names" }

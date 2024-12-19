@@ -1,0 +1,13 @@
+- name: Install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Deploy custom index.html for Nginx
+  ansible.builtin.copy:
+    content: "<h1>Welcome to Nginx (Ansible)</h1>"
+    dest: /usr/share/nginx/html/index.html
+    mode: '0644'
+  notify:
+    - Restart Nginx

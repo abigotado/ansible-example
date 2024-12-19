@@ -1,0 +1,13 @@
+- name: Install Apache
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+    update_cache: true
+
+- name: Deploy custom index.html for Apache
+  ansible.builtin.copy:
+    content: "<h1>Welcome to Apache (Ansible)</h1>"
+    dest: /usr/local/apache2/htdocs/index.html
+    mode: '0644'
+  notify:
+    - Restart Apache

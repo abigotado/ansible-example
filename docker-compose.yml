@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "8080:80"
+    networks:
+      - web
+
+  apache:
+    image: httpd:latest
+    container_name: apache_container
+    ports:
+      - "8081:80"
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge
